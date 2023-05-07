@@ -101,55 +101,31 @@ function loadData() {
     });
 
     var yesterday = new Date()
-    yesterday.setDate(from.getDate()-1)
+    yesterday.setDate(yesterday.getDate()-1)
     var usage_view = new google.visualization.DataView(data);
-    usage_view.setRows(usage_view.getFilteredRows([{column: 1, minValue: new Date(2023, 3, 1)}]));
-    var latestUsageChart  = new google.visualization.ChartWrapper({
-      'chartType': 'ComboChart',
-      'containerId': 'latest_usage_chart_div',
-      'options': {
-        chart: {title: 'Cost vs Usage'},
-        //width: '100%', height: 500,
+    usage_view.setRows(usage_view.getFilteredRows([{column: 0, minValue: yesterday}]));
+    var materialOptions = {
+        chart: {
+          title: 'Usage and cost'
+        },
+        width: 900,
+        height: 500,
         series: {
-            // Gives each series an axis name that matches the Y-axis below.      
+          // Gives each series an axis name that matches the Y-axis below.
             0: {axis: 'usage', type: 'line'},
-            1: {axis: 'cost', type: 'steppedArea'},          
             2: {axis: 'usage', type: 'line'},
+            1: {axis: 'cost', type: 'steppedArea'},          
             3: {axis: 'cost', type: 'steppedArea'}
         },
         axes: {
-            // Adds labels to each axis; they don't have to match the axis names.
-            y: {
+          y: {
             usage: {label: 'Usage (kWh)'},
             cost: {label: 'Cost (pence)'}
-            }
-        }
-        }
-    });       
-    latestUsageChart.draw(usage_view)
-
-    var prices_view = new google.visualization.DataView(prices_data);
-    prices_view.setRows(prices_view.getFilteredRows([{column: 1, minValue: yesterday}]));
-   var latestPricesLineChart  = new google.visualization.ChartWrapper({
-    'chartType': 'ComboChart',
-    'containerId': 'latest_prices_chart_div',
-    'options': {
-      chart: {title: 'latest prices'},
-      series: {
-      // Gives each series an axis name that matches the Y-axis below.      
-      0: {axis: 'import', type: 'line'},
-      1: {axis: 'export', type: 'line'},          
-      2: {axis: 'margin', type: 'line'}
-      },
-      axes: {
-          // Adds labels to each axis; they don't have to match the axis names.
-          y: {
-          cost: {label: 'Cost (pence)'},
           }
-      }
-      }
-  });        
-  latestPricesLineChart.draw(prices_view);
+        }
+      };
+    var latestUsageChart = new google.visualization.ComboChart(document.getElementById('latest_usage_chart_div'));
+    latestUsageChart.draw(data, materialOptions);
 
     // Create a dashboard.
     var prices_dashboard = new google.visualization.Dashboard(document.getElementById('prices_dashboard_div'));
