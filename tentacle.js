@@ -221,7 +221,7 @@ function checkSettings(){
 		document.getElementById('outgoing_tariff_code').value = getCookie("outgoing_tariff_code");
 		document.getElementById('input_mpan').value = getCookie("input_mpan");
 		document.getElementById('outgoing_mpan').value = getCookie("outgoing_mpan");
-		document.getElementById('serial').value = setCookie("serial");
+		document.getElementById('serial').value = getCookie("serial");
 		loadData();
 	}
 }
