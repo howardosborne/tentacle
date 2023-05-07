@@ -101,9 +101,9 @@ function loadData() {
     });
 
     var yesterday = new Date()
-    yesterday.setDate(from.getDate()-7)
+    yesterday.setDate(from.getDate()-1)
     var usage_view = new google.visualization.DataView(data);
-    usage_view.setRows(usage_view.getFilteredRows([{column: 1, minValue: yesterday}]));
+    usage_view.setRows(usage_view.getFilteredRows([{column: 1, minValue: new Date(2023, 3, 1)}]));
     var latestUsageChart  = new google.visualization.ChartWrapper({
       'chartType': 'ComboChart',
       'containerId': 'latest_usage_chart_div',
