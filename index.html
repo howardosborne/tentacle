@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="H">
-    <meta name="generator" content="Hugo 0.111.3">
+    <meta name="generator" content="H">
     <title>Tentacle</title>
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -140,15 +140,27 @@
       <div class="position-sticky pt-3 sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
+            <a class="nav-link" href="#latest_prices_div">
+              <span data-feather="file" class="align-text-bottom"></span>
+              Latest Prices
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#latest_usage_div">
+              <span data-feather="file" class="align-text-bottom"></span>
+              Usage
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="#prices_dashboard_div">
               <span data-feather="file" class="align-text-bottom"></span>
-              Prices
+              Prices over last week
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#usage">
               <span data-feather="file" class="align-text-bottom"></span>
-              Usage
+              Usage over last week
             </a>
           </li>
           <li class="nav-item">
@@ -172,21 +184,21 @@
         <h1 class="h2">Dashboard</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="loadData()">Get Data</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="loadData()">Refresh</button>
           </div>
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar" class="align-text-bottom"></span>
-            This week
-          </button>
         </div>
       </div>
 
-      <h2>Prices</h2>
+      <h2>Latest Prices</h2>
+      <div class="table-responsive" id="latest_prices_chart_div"></div>
+      <h2>Usage</h2>
+      <div class="table-responsive" id="latest_usage_chart_div"></div>
+      <h2>Prices over last week</h2>
       <div class="table-responsive" id="prices_dashboard_div">
 		<div class="table-responsive" id="prices_chart_div"></div>
 		<div class="table-responsive" id="prices_filter_div"></div>
       </div>
-	  <h2>Usage</h2>
+	  <h2>Usage over last week</h2>
       <div class="table-responsive" id="usage">
 	  	<div class="table-responsive" id="usage_chart_div"></div>
 		<div class="table-responsive" id="usage_filter_div"></div>

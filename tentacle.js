@@ -100,6 +100,57 @@ function loadData() {
         ]);            
     });
 
+    var yesterday = new Date()
+    yesterday.setDate(from.getDate()-7)
+    var usage_view = new google.visualization.DataView(data);
+    usage_view.setRows(view.getFilteredRows([{column: 1, minValue: yesterday}]));
+    var latestUsageChart  = new google.visualization.ChartWrapper({
+      'chartType': 'ComboChart',
+      'containerId': 'latest_usage_chart_div',
+      'options': {
+        chart: {title: 'Cost vs Usage'},
+        //width: '100%', height: 500,
+        series: {
+            // Gives each series an axis name that matches the Y-axis below.      
+            0: {axis: 'usage', type: 'line'},
+            1: {axis: 'cost', type: 'steppedArea'},          
+            2: {axis: 'usage', type: 'line'},
+            3: {axis: 'cost', type: 'steppedArea'}
+        },
+        axes: {
+            // Adds labels to each axis; they don't have to match the axis names.
+            y: {
+            usage: {label: 'Usage (kWh)'},
+            cost: {label: 'Cost (pence)'}
+            }
+        }
+        }
+    });       
+    latestUsageChart.draw(usage_view)
+
+    var prices_view = new google.visualization.DataView(prices_data);
+    prices_view.setRows(view.getFilteredRows([{column: 1, minValue: yesterday}]));
+   var latestPricesLineChart  = new google.visualization.ChartWrapper({
+    'chartType': 'ComboChart',
+    'containerId': 'latest_prices_chart_div',
+    'options': {
+      chart: {title: 'latest prices'},
+      series: {
+      // Gives each series an axis name that matches the Y-axis below.      
+      0: {axis: 'import', type: 'line'},
+      1: {axis: 'export', type: 'line'},          
+      2: {axis: 'margin', type: 'line'}
+      },
+      axes: {
+          // Adds labels to each axis; they don't have to match the axis names.
+          y: {
+          cost: {label: 'Cost (pence)'},
+          }
+      }
+      }
+  });        
+  latestPricesLineChart.draw(prices_view);
+
     // Create a dashboard.
     var prices_dashboard = new google.visualization.Dashboard(document.getElementById('prices_dashboard_div'));
  
@@ -108,8 +159,7 @@ function loadData() {
           'controlType': 'ChartRangeFilter',
           'containerId': 'prices_filter_div',
           'options': {
-            'filterColumnLabel': 'Time',
-            width: '75%', height: 100,
+            'filterColumnLabel': 'Time'
           }
         });
         var pricesLineChart  = new google.visualization.ChartWrapper({
@@ -117,7 +167,6 @@ function loadData() {
           'containerId': 'prices_chart_div',
           'options': {
             chart: {title: 'prices'},
-            width: '100%', height: 500,
             series: {
             // Gives each series an axis name that matches the Y-axis below.      
             0: {axis: 'import', type: 'line'},
@@ -136,7 +185,6 @@ function loadData() {
       prices_dashboard.bind(pricesRangeSlider, pricesLineChart);
       prices_dashboard.draw(prices_data);
 
-
     // Create a dashboard.
     var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
  
@@ -145,8 +193,7 @@ function loadData() {
           'controlType': 'ChartRangeFilter',
           'containerId': 'usage_filter_div',
           'options': {
-            'filterColumnLabel': 'Time',
-            width: '75%', height: 100,
+            'filterColumnLabel': 'Time'
           }
         });
         var lineChart  = new google.visualization.ChartWrapper({
@@ -154,7 +201,7 @@ function loadData() {
           'containerId': 'usage_chart_div',
           'options': {
             chart: {title: 'Cost vs Usage'},
-            width: '100%', height: 500,
+            //width: '100%', height: 500,
             series: {
                 // Gives each series an axis name that matches the Y-axis below.      
                 0: {axis: 'usage', type: 'line'},
