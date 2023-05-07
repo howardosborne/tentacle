@@ -103,7 +103,7 @@ function loadData() {
     var yesterday = new Date()
     yesterday.setDate(from.getDate()-7)
     var usage_view = new google.visualization.DataView(data);
-    usage_view.setRows(view.getFilteredRows([{column: 1, minValue: yesterday}]));
+    usage_view.setRows(usage_view.getFilteredRows([{column: 1, minValue: yesterday}]));
     var latestUsageChart  = new google.visualization.ChartWrapper({
       'chartType': 'ComboChart',
       'containerId': 'latest_usage_chart_div',
@@ -129,7 +129,7 @@ function loadData() {
     latestUsageChart.draw(usage_view)
 
     var prices_view = new google.visualization.DataView(prices_data);
-    prices_view.setRows(view.getFilteredRows([{column: 1, minValue: yesterday}]));
+    prices_view.setRows(prices_view.getFilteredRows([{column: 1, minValue: yesterday}]));
    var latestPricesLineChart  = new google.visualization.ChartWrapper({
     'chartType': 'ComboChart',
     'containerId': 'latest_prices_chart_div',
