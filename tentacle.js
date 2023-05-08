@@ -134,7 +134,7 @@ function loadData() {
         }
         prices_data.addRow([new Date (item["valid_from"]),
           Number(item["value_inc_vat"]),
-          Number(item["export_value_inc_vat"]) * -1,
+          Number(item["export_value_inc_vat"]),
           Number(item["margin"])
         ]);               
     });
@@ -144,8 +144,8 @@ function loadData() {
         daily_data.addRow([new Date (key),
           Number(item["consumption"]),
           Number(item["consumption_cost"]),
-          Number(item["export"]),
-          Number(item["export_earnings"])
+          Number(item["export"]) * -1,
+          Number(item["export_earnings"]) * -1
         ]); 
       }
       else{
