@@ -36,11 +36,11 @@ function loadData() {
         output[timestamp] = response.results[i];
         var day_timestamp = response.results[i]["valid_from"].substring(0,10)
         if (day_timestamp in daily_info){
-          daily_info[day_timestamp]["value_inc_vat"] += response.results[i]["value_inc_vat"]
+          daily_info[day_timestamp]["value_inc_vat"] += Number(response.results[i]["value_inc_vat"])
         }
         else{
           daily_info[day_timestamp] = {}
-          daily_info[day_timestamp]["value_inc_vat"] = response.results[i]["value_inc_vat"]
+          daily_info[day_timestamp]["value_inc_vat"] = Number(response.results[i]["value_inc_vat"])
         }
      }
     //get export prices
@@ -54,7 +54,7 @@ function loadData() {
         output[timestamp]["export_value_inc_vat"] = response.results[i]["value_inc_vat"];
         output[timestamp]["margin"] = (output[timestamp]["value_inc_vat"] - output[timestamp]["export_value_inc_vat"]).toFixed(2)
         var day_timestamp = response.results[i]["valid_from"].substring(0,10)
-        daily_info[day_timestamp]["export_value_inc_vat"] += response.results[i]["value_inc_vat"]
+        daily_info[day_timestamp]["export_value_inc_vat"] += Number(response.results[i]["value_inc_vat"])
      }
     //get imported energy
     xhttp.open("GET", imported_url, false);
@@ -68,7 +68,7 @@ function loadData() {
         output[timestamp]["consumption"] = response.results[i]["consumption"]
         output[timestamp]["consumption_cost"] = (response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]).toFixed(2)
         var day_timestamp = response.results[i]["interval_start"].substring(0,10)
-        daily_info[day_timestamp]["consumption"]  += response.results[i]["consumption"]
+        daily_info[day_timestamp]["consumption"]  += Number(response.results[i]["consumption"])
         daily_info[day_timestamp]["consumption_cost"]  += (response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]).toFixed(2)
     }    
     
@@ -84,7 +84,7 @@ function loadData() {
         output[timestamp]["export"] = response.results[i]["consumption"]
         output[timestamp]["export_earnings"] = (response.results[i]["consumption"] * output[timestamp]["export_value_inc_vat"]).toFixed(2)
         var day_timestamp = response.results[i]["interval_start"].substring(0,10)
-        daily_info[day_timestamp]["export"]  += response.results[i]["consumption"]
+        daily_info[day_timestamp]["export"]  += Number(response.results[i]["consumption"])
         daily_info[day_timestamp]["export_earnings"]  += (response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]).toFixed(2)
     }
 
@@ -148,6 +148,9 @@ function loadData() {
         ]);  
       }
     }); 
+    var table = new google.visualization.Table(document.getElementById('summary_usage_chart_div'));
+    table.draw(daily_data, {showRowNumber: false, width: '100%', height: '100%'});
+
     var yesterday = new Date()
     yesterday.setDate(yesterday.getDate()-1)
 
@@ -169,10 +172,10 @@ function loadData() {
         }
       }
     };    
-
+/*
     var latestUsageChart = new google.visualization.ComboChart(document.getElementById('summary_usage_chart_div'));
     latestUsageChart.draw(daily_data, materialOptions);    
-
+*/
     // Create a dashboard.
     var prices_dashboard = new google.visualization.Dashboard(document.getElementById('prices_dashboard_div'));
  
