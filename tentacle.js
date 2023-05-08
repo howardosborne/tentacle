@@ -159,7 +159,7 @@ function loadData() {
     var yesterday = new Date()
     yesterday.setDate(yesterday.getDate()-1)
 
-    var usageOptions = {
+/*    var usageOptions = {
       chart: {
         title: 'Usage'
       },
@@ -181,8 +181,31 @@ function loadData() {
 
     var latestUsageChart = new google.visualization.ComboChart(document.getElementById('summary_usage_chart_div'));
     latestUsageChart.draw(daily_data, usageOptions);    
+*/
+  var usageOptions = {
+    chart: {
+      title: 'Usage'
+    },
+    series: {
+      // Gives each series an axis name that matches the Y-axis below.
+        0: {axis: 'usage'},
+        2: {axis: 'usage'},
+        1: {axis: 'cost'},          
+        3: {axis: 'cost'}
+    },
+    axes: {
+      y: {
+        usage: {label: 'Usage (kWh)'},
+        cost: {label: 'Cost (pence)'}
+      }
+    }
+  };    
 
-    var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
+
+  var latestUsageChart = new google.visualization.LineChart(document.getElementById('summary_usage_chart_div'));
+  latestUsageChart.draw(daily_data, usageOptions);  
+
+  var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
     table.draw(daily_data, {showRowNumber: false, width: '100%', height: '100%'});   
 
     // Create a dashboard.
