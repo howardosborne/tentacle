@@ -134,7 +134,7 @@ function loadData() {
 
     Object.entries(daily_info).forEach(function([key, item]) {
       if ("export_earnings" in item){ 
-        daily_data.addRow([new Date (item["valid_from"].substring(0,10)),
+        daily_data.addRow([new Date (key),
           Number(item["consumption"]),
           Number(item["consumption_cost"]),
           Number(item["export"]),
@@ -142,7 +142,7 @@ function loadData() {
         ]); 
       }
       else{
-        daily_prices_data.addRow([new Date (item["valid_from"].substring(0,10)),
+        daily_prices_data.addRow([new Date (key),
           Number(item["value_inc_vat"])/48,
           Number(item["export_value_inc_vat"])/48,
         ]);  
