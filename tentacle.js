@@ -181,11 +181,11 @@ function loadData() {
     var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
     table.draw(daily_data, {showRowNumber: false, width: '100%', height: '100%'});   
 
-    //var yesterday = new Date()
-    //yesterday.setDate(yesterday.getDate()-1)
+    var yesterday = new Date()
+    yesterday.setDate(yesterday.getDate()-1)
     //future prices
     var prices_view = new google.visualization.DataView(prices_data);
-    prices_view.setRows(prices_view.getFilteredRows([{column: 1, minValue: new Date()}]));
+    prices_view.setRows(prices_view.getFilteredRows([{column: 1, minValue: yesterday}]));
     var upcomingPricesLineChart  = new google.visualization.ChartWrapper({
       'chartType': 'ComboChart',
       'containerId': 'upcoming_prices_chart_div',
