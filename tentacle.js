@@ -70,6 +70,7 @@ function loadData() {
         var day_timestamp = response.results[i]["interval_start"].substring(0,10)
         daily_info[day_timestamp]["consumption"]  += Number(response.results[i]["consumption"])
         daily_info[day_timestamp]["consumption_cost"]  += (response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]).toFixed(2)
+        console.log(daily_info[day_timestamp])
     }    
     
     //get exported energy
@@ -86,6 +87,7 @@ function loadData() {
         var day_timestamp = response.results[i]["interval_start"].substring(0,10)
         daily_info[day_timestamp]["export"]  += Number(response.results[i]["consumption"])
         daily_info[day_timestamp]["export_earnings"]  += (response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]).toFixed(2)
+        console.log(daily_info[day_timestamp])
     }
 
     var prices_data = new google.visualization.DataTable();
@@ -135,10 +137,10 @@ function loadData() {
     Object.entries(daily_info).forEach(function([key, item]) {
       if ("export_earnings" in item){ 
         daily_data.addRow([new Date (key),
-          item["consumption"],
-          item["consumption_cost"],
-          item["export"],
-          item["export_earnings"]
+          Number(item["consumption"]),
+          Number(item["consumption_cost"]),
+          Number(item["export"]),
+          Number(item["export_earnings"])
         ]); 
       }
       else{
