@@ -147,7 +147,7 @@ function loadData() {
           Number(item["export_value_inc_vat"])/48,
         ]);  
       }
-
+    }); 
     var yesterday = new Date()
     yesterday.setDate(yesterday.getDate()-1)
 
@@ -207,10 +207,10 @@ function loadData() {
       prices_dashboard.bind(pricesRangeSlider, pricesLineChart);
       prices_dashboard.draw(prices_data);
 
-    // Create a dashboard.
-    var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
+        // Create a dashboard.
+        var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
  
-    // Create a range slider, passing some options
+        // Create a range slider, passing some options
         var rangeSlider = new google.visualization.ControlWrapper({
           'controlType': 'ChartRangeFilter',
           'containerId': 'usage_filter_div',
@@ -247,6 +247,7 @@ function loadData() {
     var table = new google.visualization.Table(document.getElementById('full_table'));
     table.draw(data, {showRowNumber: false, width: '100%', height: '100%'});
  }
+ 
  function setCookie(cname, cvalue) {
   const d = new Date();
   d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
@@ -268,6 +269,7 @@ function getCookie(cname) {
   }
   return "";
 }
+
 function saveSettings(){
 	setCookie("api_key", document.getElementById('api_key').value)
 	setCookie("product_code", document.getElementById('product_code').value)
@@ -278,6 +280,7 @@ function saveSettings(){
 	setCookie("outgoing_mpan", document.getElementById('outgoing_mpan').value)
 	setCookie("serial", document.getElementById('serial').value)
 }
+
 function checkSettings(){
 	if(getCookie("api_key") == ""){
 		alert("set the settings before getting data");
