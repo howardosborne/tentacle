@@ -126,27 +126,27 @@ function loadData() {
                        
         }
         prices_data.addRow([new Date (item["valid_from"]),
-        Number(item["value_inc_vat"]),
-        Number(item["export_value_inc_vat"]),
-        Number(item["margin"])
+          Number(item["value_inc_vat"]),
+          Number(item["export_value_inc_vat"]),
+          Number(item["margin"])
         ]);               
     });
 
     Object.entries(daily_info).forEach(function([key, item]) {
       if ("export_earnings" in item){ 
         daily_data.addRow([new Date (item["valid_from"].substring(0,10)),
-        Number(item["consumption"]),
-        Number(item["consumption_cost"]),
-        Number(item["export"]),
-        Number(item["export_earnings"])
-    ]); 
+          Number(item["consumption"]),
+          Number(item["consumption_cost"]),
+          Number(item["export"]),
+          Number(item["export_earnings"])
+        ]); 
       }
       else{
         daily_prices_data.addRow([new Date (item["valid_from"].substring(0,10)),
-        Number(item["value_inc_vat"])/48,
-        Number(item["export_value_inc_vat"])/48,
+          Number(item["value_inc_vat"])/48,
+          Number(item["export_value_inc_vat"])/48,
+        ]);  
       }
-    ]);  
 
     var yesterday = new Date()
     yesterday.setDate(yesterday.getDate()-1)
