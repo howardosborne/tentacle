@@ -189,8 +189,8 @@ function loadData() {
     series: {
       // Gives each series an axis name that matches the Y-axis below.
         0: {axis: 'usage'},
-        2: {axis: 'usage'},
         1: {axis: 'cost'},          
+        2: {axis: 'usage'},
         3: {axis: 'cost'}
     },
     axes: {
@@ -202,7 +202,7 @@ function loadData() {
   };    
 
 
-  var latestUsageChart = new google.visualization.LineChart(document.getElementById('summary_usage_chart_div'));
+  var latestUsageChart = new google.visualization.Line(document.getElementById('summary_usage_chart_div'));
   latestUsageChart.draw(daily_data, usageOptions);  
 
   var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
