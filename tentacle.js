@@ -74,8 +74,8 @@ function loadData() {
         output[timestamp]["consumption_cost"] = (response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]).toFixed(2)
         var day_timestamp = response.results[i]["interval_start"].substring(0,10)
         daily_info[day_timestamp]["consumption"]  += Number(response.results[i]["consumption"])
+        daily_info[day_timestamp]["net_energy_imported"] += Number(response.results[i]["consumption"])
         daily_info[day_timestamp]["consumption_cost"]  += Number((response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]))
-        console.log(daily_info[day_timestamp])
     }    
     
     //get exported energy
@@ -88,11 +88,14 @@ function loadData() {
         var timestamp = new Date(response.results[i]["interval_start"]).toLocaleString();
         //    if timestamp in output:
         output[timestamp]["export"] = response.results[i]["consumption"]
+        output[timestamp]["net_energy_imported"] = output[timestamp]["consumption"] - output[timestamp]["export"]
         output[timestamp]["export_earnings"] = (response.results[i]["consumption"] * output[timestamp]["export_value_inc_vat"]).toFixed(2)
+        output[timestamp]["net_cost"] = output[timestamp]["consumption_cost"] - output[timestamp]["export_earnings"]
         var day_timestamp = response.results[i]["interval_start"].substring(0,10)
         daily_info[day_timestamp]["export"]  += Number(response.results[i]["consumption"])
+        daily_info[day_timestamp]["net_energy_imported"] -= Number(response.results[i]["consumption"])
         daily_info[day_timestamp]["export_earnings"]  += Number(response.results[i]["consumption"] * output[timestamp]["value_inc_vat"])
-        console.log(daily_info[day_timestamp])
+        daily_info[day_timestamp]["consumption_cost"] -= Number(response.results[i]["consumption"] * output[timestamp]["value_inc_vat"])
     }
 
     var prices_data = new google.visualization.DataTable();
@@ -114,15 +117,41 @@ function loadData() {
     data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
     data.addColumn({ type: 'number', id: 'exported_cost', label : 'Exported Value' });  
   
+    var consumption_data = new google.visualization.DataTable();
+    data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
+    data.addColumn({ type: 'number', id: 'imported', label : 'Imported' });
+    data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
+    data.addColumn({ type: 'number', id: 'net_energy_imported', label : 'Net energy imported' });  
+
+    var cost_data = new google.visualization.DataTable();
+    data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
+    data.addColumn({ type: 'number', id: 'imported_cost', label : 'Import cost' });
+    data.addColumn({ type: 'number', id: 'exported_cost', label : 'Export value' });
+    data.addColumn({ type: 'number', id: 'net_cost', label : 'Net cost' });
+
     var daily_data = new google.visualization.DataTable();
     daily_data.addColumn({ type: 'date', id: 'timestamp', label : 'Day'});
     daily_data.addColumn({ type: 'number', id: 'imported', label : 'Imported' });
     daily_data.addColumn({ type: 'number', id: 'imported_cost', label : 'Imported Cost' });
     daily_data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
     daily_data.addColumn({ type: 'number', id: 'exported_cost', label : 'Exported Value' });    
+
+    var daily_consumption_data = new google.visualization.DataTable();
+    data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
+    data.addColumn({ type: 'number', id: 'imported', label : 'Imported' });
+    data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
+    data.addColumn({ type: 'number', id: 'net_energy_imported', label : 'Net energy imported' });  
+
+    var daily_cost_data = new google.visualization.DataTable();
+    data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
+    data.addColumn({ type: 'number', id: 'imported_cost', label : 'Import cost' });
+    data.addColumn({ type: 'number', id: 'exported_cost', label : 'Export value' });
+    data.addColumn({ type: 'number', id: 'net_cost', label : 'Net cost' });
+
     var formatter = new Intl.NumberFormat('en-UK', {style: 'currency', currency: 'GBP'});
+
     //for each day need sum of costs
-    Object.entries(output).forEach(function([key, item]) {
+  /*  Object.entries(output).forEach(function([key, item]) {
         if ("export_earnings" in item){
             data.addRow([new Date (item["valid_from"]),
                 Number(item["consumption"]),
@@ -138,15 +167,40 @@ function loadData() {
           {v: Number(item["margin"]), f: formatter.format(Number(item["margin"])/100)}
         ]);               
     });
+*/
+    Object.entries(output).forEach(function([key, item]) {
+        if ("export_earnings" in item){
+            consumption_data.addRow([new Date (item["valid_from"]),
+                Number(item["consumption"]),
+                Number(item["export"]) * -1,
+                Number(item["net_energy_imported"])
+            ]);
+            cost_data.addRow([new Date (item["valid_from"]),
+                {v: Number(item["consumption_cost"]), f: formatter.format(Number(item["consumption_cost"])/100)},
+                {v: Number(item["export_earnings"]) * -1, f: formatter.format(Number(item["export_earnings"])/100)},
+                {v: Number(item["net_cost"]) * -1, f: formatter.format(Number(item["net_cost"])/100)}
+            ]);
+        }
+        prices_data.addRow([new Date (item["valid_from"]),
+          {v: Number(item["value_inc_vat"]), f: formatter.format(Number(item["value_inc_vat"])/100)},
+          {v: Number(item["export_value_inc_vat"]), f: formatter.format(Number(item["export_value_inc_vat"])/100)},
+          {v: Number(item["margin"]), f: formatter.format(Number(item["margin"])/100)}
+        ]);               
+    });
+
 
     Object.entries(daily_info).forEach(function([key, item]) {
       if ("export_earnings" in item){ 
-        daily_data.addRow([new Date (key),
-          Number(item["consumption"]),
-          {v: Number(item["consumption_cost"]), f: formatter.format(Number(item["consumption_cost"])/100)},
-          Number(item["export"]) * -1,
-          {v: Number(item["export_earnings"]) * -1, f: formatter.format(Number(item["export_earnings"])/100)}
-        ]); 
+        daily_consumption_data.addRow([new Date (item["valid_from"]),
+                Number(item["consumption"]),
+                Number(item["export"]) * -1,
+                Number(item["net_energy_imported"])
+            ]);
+        daily_cost_data.addRow([new Date (item["valid_from"]),
+                {v: Number(item["consumption_cost"]), f: formatter.format(Number(item["consumption_cost"])/100)},
+                {v: Number(item["export_earnings"]) * -1, f: formatter.format(Number(item["export_earnings"])/100)},
+                {v: Number(item["net_cost"]) * -1, f: formatter.format(Number(item["net_cost"])/100)}
+            ]);       
       }
       else{
         daily_prices_data.addRow([new Date (key),
@@ -163,20 +217,37 @@ function loadData() {
       },
       series: {
         // Gives each series an axis name that matches the Y-axis below.
-          0: {targetAxisIndex: 0, type: 'line'},
-          2: {targetAxisIndex: 0, type: 'line'},
-          1: {targetAxisIndex: 1, type: 'area'},          
-          3: {targetAxisIndex: 1, type: 'area'}
+          0: {targetAxisIndex: 0, type: 'steppedArea'},
+          1: {targetAxisIndex: 0, type: 'steppedArea'},
+          2: {targetAxisIndex: 0, type: 'area'}         
       },
       vAxes: {
         0: {title: 'Usage (kWh)'},
-        1: {title: 'Cost (pence)'}
       }
     };    
   
+    var latestUsageChart = new google.visualization.ComboChart(document.getElementById('summary_consumption_chart_div'));
+    latestUsageChart.draw(daily_consumption_data, usageOptions);    
 
-    var latestUsageChart = new google.visualization.ComboChart(document.getElementById('summary_usage_chart_div'));
-    latestUsageChart.draw(daily_data, usageOptions);    
+    var costOptions = {
+      chart: {
+        title: 'Cost',
+        'height':800
+      },
+      series: {
+        // Gives each series an axis name that matches the Y-axis below.
+          0: {targetAxisIndex: 0, type: 'steppedArea'},
+          1: {targetAxisIndex: 0, type: 'steppedArea'},
+          2: {targetAxisIndex: 0, type: 'area'}         
+      },
+      vAxes: {
+        0: {title: 'Usage (kWh)'},
+      }
+    };    
+  
+    var latestCostChart = new google.visualization.ComboChart(document.getElementById('summary_cost_chart_div'));
+    latestCostChart.draw(daily_cost_data, usageOptions);
+
 
     var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
     table.draw(daily_data, {showRowNumber: false, width: '100%', height: '100%'});   
@@ -185,7 +256,8 @@ function loadData() {
     yesterday.setDate(yesterday.getDate()-1)
     //future prices
     var prices_view = new google.visualization.DataView(prices_data);
-    prices_view.setRows(prices_view.getFilteredRows([{column: 1, minValue: yesterday}]));
+    prices_view.setRows(prices_view.getFilteredRows([{column: 0, minValue: new Date()}]));
+
     var upcomingPricesLineChart  = new google.visualization.ChartWrapper({
       'chartType': 'ComboChart',
       'containerId': 'upcoming_prices_chart_div',
