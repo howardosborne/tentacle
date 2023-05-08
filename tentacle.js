@@ -120,22 +120,22 @@ function loadData() {
     daily_data.addColumn({ type: 'number', id: 'imported_cost', label : 'Imported Cost' });
     daily_data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
     daily_data.addColumn({ type: 'number', id: 'exported_cost', label : 'Exported Value' });    
-
+    var formatter = new Intl.NumberFormat('en-UK', {style: 'currency', currency: 'GBP'});
     //for each day need sum of costs
     Object.entries(output).forEach(function([key, item]) {
         if ("export_earnings" in item){
             data.addRow([new Date (item["valid_from"]),
                 Number(item["consumption"]),
-                Number(item["consumption_cost"]),
+                {v: Number(item["consumption_cost"]), f: formatter.format(Number(item["consumption_cost"])/100)},
                 Number(item["export"]) * -1,
-                Number(item["export_earnings"]) * -1
+                {v: Number(item["export_earnings"]) * -1, f: formatter.format(Number(item["export_earnings"])/100)}
             ]);
                        
         }
         prices_data.addRow([new Date (item["valid_from"]),
-          Number(item["value_inc_vat"]),
-          Number(item["export_value_inc_vat"]),
-          Number(item["margin"])
+          {v: Number(item["value_inc_vat"]), f: formatter.format(Number(item["value_inc_vat"])/100)},
+          {v: Number(item["export_value_inc_vat"]), f: formatter.format(Number(item["export_value_inc_vat"])/100)},
+          {v: Number(item["margin"]), f: formatter.format(Number(item["margin"])/100)}
         ]);               
     });
 
@@ -143,16 +143,16 @@ function loadData() {
       if ("export_earnings" in item){ 
         daily_data.addRow([new Date (key),
           Number(item["consumption"]),
-          Number(item["consumption_cost"]),
+          {v: Number(item["consumption_cost"]), f: formatter.format(Number(item["consumption_cost"])/100)},
           Number(item["export"]) * -1,
-          Number(item["export_earnings"]) * -1
+          {v: Number(item["export_earnings"]) * -1, f: formatter.format(Number(item["export_earnings"])/100)}
         ]); 
       }
       else{
         daily_prices_data.addRow([new Date (key),
-          Number(item["value_inc_vat"])/48,
-          Number(item["export_value_inc_vat"])/48,
-        ]);  
+          {v: Number(item["value_inc_vat"])/48, f: formatter.format(Number(item["value_inc_vat"])/4800)},
+          {v: Number(item["export_value_inc_vat"])/48, f: formatter.format(Number(item["export_value_inc_vat"])/4800)}
+        ]);
       }
     }); 
 
