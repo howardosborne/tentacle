@@ -156,9 +156,6 @@ function loadData() {
       }
     }); 
 
-    var yesterday = new Date()
-    yesterday.setDate(yesterday.getDate()-1)
-
     var usageOptions = {
       chart: {
         title: 'Usage',
@@ -181,9 +178,35 @@ function loadData() {
     var latestUsageChart = new google.visualization.ComboChart(document.getElementById('summary_usage_chart_div'));
     latestUsageChart.draw(daily_data, usageOptions);    
 
-  var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
+    var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
     table.draw(daily_data, {showRowNumber: false, width: '100%', height: '100%'});   
 
+    //var yesterday = new Date()
+    //yesterday.setDate(yesterday.getDate()-1)
+    //future prices
+    var prices_view = new google.visualization.DataView(prices_data);
+    prices_view.setRows(prices_view.getFilteredRows([{column: 1, minValue: new Date()}]));
+    var upcomingPricesLineChart  = new google.visualization.ChartWrapper({
+      'chartType': 'ComboChart',
+      'containerId': 'upcoming_prices_chart_div',
+      'options': {
+        chart: {title: 'upcoming prices',
+        'height':800},
+        series: {
+        // Gives each series an axis name that matches the Y-axis below.      
+        0: {axis: 'import', type: 'line'},
+        1: {axis: 'export', type: 'line'},          
+        2: {axis: 'margin', type: 'line'}
+        },
+        axes: {
+            // Adds labels to each axis; they don't have to match the axis names.
+            y: {
+            cost: {label: 'Cost (pence)'},
+            }
+        }
+        }
+    });     
+    upcomingPricesLineChart.draw(prices_view)
     // Create a dashboard.
     var prices_dashboard = new google.visualization.Dashboard(document.getElementById('prices_dashboard_div'));
  
