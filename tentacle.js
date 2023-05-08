@@ -135,10 +135,10 @@ function loadData() {
     Object.entries(daily_info).forEach(function([key, item]) {
       if ("export_earnings" in item){ 
         daily_data.addRow([new Date (key),
-          Number(item["consumption"]),
-          Number(item["consumption_cost"]),
-          Number(item["export"]),
-          Number(item["export_earnings"])
+          item["consumption"],
+          item["consumption_cost"],
+          item["export"],
+          item["export_earnings"]
         ]); 
       }
       else{
