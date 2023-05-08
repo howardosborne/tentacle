@@ -161,12 +161,13 @@ function loadData() {
 
     var usageOptions = {
       chart: {
-        title: 'Usage'
+        title: 'Usage',
+        'height':500
       },
       series: {
         // Gives each series an axis name that matches the Y-axis below.
-          0: {targetAxisIndex: 0, type: 'line'},
-          2: {targetAxisIndex: 0, type: 'line'},
+          0: {targetAxisIndex: 0, type: 'bars'},
+          2: {targetAxisIndex: 0, type: 'bars'},
           1: {targetAxisIndex: 1, type: 'steppedArea'},          
           3: {targetAxisIndex: 1, type: 'steppedArea'}
       },
@@ -179,30 +180,7 @@ function loadData() {
 
     var latestUsageChart = new google.visualization.ComboChart(document.getElementById('summary_usage_chart_div'));
     latestUsageChart.draw(daily_data, usageOptions);    
-/*
-  var usageOptions = {
-    chart: {
-      title: 'Usage'
-    },
-    series: {
-      // Gives each series an axis name that matches the Y-axis below.
-        0: {axis: 'usage'},
-        1: {axis: 'cost'},          
-        2: {axis: 'usage'},
-        3: {axis: 'cost'}
-    },
-    axes: {
-      y: {
-        usage: {label: 'Usage (kWh)'},
-        cost: {label: 'Cost (pence)'}
-      }
-    }
-  };    
 
-
-  var latestUsageChart = new google.charts.Line(document.getElementById('summary_usage_chart_div'));
-  latestUsageChart.draw(daily_data, usageOptions);  
-*/
   var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
     table.draw(daily_data, {showRowNumber: false, width: '100%', height: '100%'});   
 
@@ -221,7 +199,8 @@ function loadData() {
           'chartType': 'ComboChart',
           'containerId': 'prices_chart_div',
           'options': {
-            chart: {title: 'prices'},
+            chart: {title: 'prices',
+            'height':500},
             series: {
             // Gives each series an axis name that matches the Y-axis below.      
             0: {axis: 'import', type: 'line'},
@@ -255,8 +234,7 @@ function loadData() {
           'chartType': 'ComboChart',
           'containerId': 'usage_chart_div',
           'options': {
-            chart: {title: 'Cost vs Usage'},
-            //width: '100%', height: 500,
+            chart: {title: 'Cost vs Usage', 'height':500},
             series: {
                 // Gives each series an axis name that matches the Y-axis below.      
                 0: {axis: 'usage', type: 'line'},
@@ -278,7 +256,7 @@ function loadData() {
       dashboard.draw(data);
 
     var table = new google.visualization.Table(document.getElementById('full_table'));
-    table.draw(data, {showRowNumber: false, width: '100%', height: '100%'});
+    table.draw(data, {showRowNumber: false});
  }
  
  function setCookie(cname, cvalue) {
