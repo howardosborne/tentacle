@@ -168,8 +168,8 @@ function loadData() {
         // Gives each series an axis name that matches the Y-axis below.
           0: {targetAxisIndex: 0, type: 'line'},
           2: {targetAxisIndex: 0, type: 'line'},
-          1: {targetAxisIndex: 1, type: 'steppedArea'},          
-          3: {targetAxisIndex: 1, type: 'steppedArea'}
+          1: {targetAxisIndex: 1, type: 'area'},          
+          3: {targetAxisIndex: 1, type: 'area'}
       },
       vAxes: {
         0: {title: 'Usage (kWh)'},
@@ -239,8 +239,8 @@ function loadData() {
               // Gives each series an axis name that matches the Y-axis below.
                 0: {targetAxisIndex: 0, type: 'line'},
                 2: {targetAxisIndex: 0, type: 'line'},
-                1: {targetAxisIndex: 1, type: 'steppedArea'},          
-                3: {targetAxisIndex: 1, type: 'steppedArea'}
+                1: {targetAxisIndex: 1, type: 'area'},          
+                3: {targetAxisIndex: 1, type: 'area'}
             },
             vAxes: {
               0: {title: 'Usage (kWh)'},
