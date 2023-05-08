@@ -41,6 +41,11 @@ function loadData() {
         else{
           daily_info[day_timestamp] = {}
           daily_info[day_timestamp]["value_inc_vat"] = Number(response.results[i]["value_inc_vat"])
+          daily_info[day_timestamp]["export_value_inc_vat"] = 0
+          daily_info[day_timestamp]["consumption"] = 0
+          daily_info[day_timestamp]["consumption_cost"] = 0
+          daily_info[day_timestamp]["export"] = 0
+          daily_info[day_timestamp]["export_earnings"] = 0
         }
      }
     //get export prices
@@ -69,7 +74,7 @@ function loadData() {
         output[timestamp]["consumption_cost"] = (response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]).toFixed(2)
         var day_timestamp = response.results[i]["interval_start"].substring(0,10)
         daily_info[day_timestamp]["consumption"]  += Number(response.results[i]["consumption"])
-        daily_info[day_timestamp]["consumption_cost"]  += (response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]).toFixed(2)
+        daily_info[day_timestamp]["consumption_cost"]  += Number((response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]))
         console.log(daily_info[day_timestamp])
     }    
     
@@ -86,7 +91,7 @@ function loadData() {
         output[timestamp]["export_earnings"] = (response.results[i]["consumption"] * output[timestamp]["export_value_inc_vat"]).toFixed(2)
         var day_timestamp = response.results[i]["interval_start"].substring(0,10)
         daily_info[day_timestamp]["export"]  += Number(response.results[i]["consumption"])
-        daily_info[day_timestamp]["export_earnings"]  += (response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]).toFixed(2)
+        daily_info[day_timestamp]["export_earnings"]  += Number(response.results[i]["consumption"] * output[timestamp]["value_inc_vat"])
         console.log(daily_info[day_timestamp])
     }
 
