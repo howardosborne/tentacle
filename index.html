@@ -184,62 +184,69 @@
       </div>
 
     <h2>Daily Usage</h2>
-      <div class="table-responsive" id="summary_usage_chart_div"></div>
-      <div class="table-responsive" id="summary_usage_table_div"></div>
+      <div id="summary_usage_chart_div"></div>
+      <div id="summary_usage_table_div"></div>
 	  <h2>Half-hourly Usage</h2>
-      <div class="table-responsive" id="usage">
-	  	  <div class="table-responsive" id="usage_chart_div"></div>
-		    <div class="table-responsive" id="usage_filter_div"></div>
+      <div id="usage">
+	  	  <div id="usage_chart_div"></div>
+		    <div id="usage_filter_div"></div>
       </div>
     <h2>Half-hourly Prices</h2>
-      <div class="table-responsive" id="prices_dashboard_div">
-		    <div class="table-responsive" id="prices_chart_div"></div>
-		    <div class="table-responsive" id="prices_filter_div"></div>
+      <div id="prices_dashboard_div">
+		    <div id="prices_chart_div"></div>
+		    <div id="prices_filter_div"></div>
     </div>
 	  <h2>Half-hourly table</h2>
-      <div class="table-responsive" id="full_table">
+      <div id="full_table">
       </div>
       <h2>Settings</h2>
-      <div class="table-responsive" id="settings">
+      <div id="settings">
         <form class="needs-validation" novalidate>
           <div class="row g-3">
             <div class="col-sm-6">
             <div class="col-12">
-            <div class="col-4">
-              <label for="api_key" class="form-label">API Key <span class="text-body-secondary"></span></label>
-              <input type="text" class="form-control" id="api_key" placeholder="your API Key">
+              <div class="col-4">
+                <label for="api_key" class="form-label">API Key <span class="text-body-secondary"></span></label>
+                <input type="text" class="form-control" id="api_key" placeholder="your API Key">
+              </div>
+              <div class="col-4">
+                <label for="serial" class="form-label">Serial no. <span class="text-body-secondary"></span></label>
+                <input type="text" class="form-control" id="serial" placeholder="Serial no.">
+              </div>
             </div>
-            <div class="col-4">
-              <label for="serial" class="form-label">Serial no. <span class="text-body-secondary"></span></label>
-              <input type="text" class="form-control" id="serial" placeholder="Serial no.">
+            <div class="col-12">
+              <div class="col-4">
+                <label for="input_mpan" class="form-label">Input MPAN<span class="text-body-secondary"></span></label>
+                <input type="text" class="form-control" id="input_mpan" placeholder="13 digit number">
+              </div>
+              <div class="col-4">
+                <label for="product_code" class="form-label">Product code<span class="text-body-secondary"></span></label>
+                <input type="text" class="form-control" id="product_code" placeholder="e.g. AGILE-FLEX-22-11-25">
+              </div>
+              <div class="col-4">
+                <label for="tariff_code" class="form-label">Tariff code<span class="text-body-secondary"></span></label>
+                <input type="text" class="form-control" id="tariff_code" placeholder="e.g. E-1R-AGILE-FLEX-22-11-25-B">
+              </div>
             </div>
-            <div class="col-4">
-              <label for="input_mpan" class="form-label">Input MPAN<span class="text-body-secondary"></span></label>
-              <input type="text" class="form-control" id="input_mpan" placeholder="13 digit number">
-            </div>
-            <div class="col-4">
-              <label for="product_code" class="form-label">Product code<span class="text-body-secondary"></span></label>
-              <input type="text" class="form-control" id="product_code" placeholder="e.g. AGILE-FLEX-22-11-25">
-            </div>
-            <div class="col-4">
-              <label for="tariff_code" class="form-label">Tariff code<span class="text-body-secondary"></span></label>
-              <input type="text" class="form-control" id="tariff_code" placeholder="e.g. E-1R-AGILE-FLEX-22-11-25-B">
-            </div>
-            <div class="col-4">
-              <label for="outgoing_mpan" class="form-label">Outgoing MPAN<span class="text-body-secondary"></span></label>
-              <input type="text" class="form-control" id="outgoing_mpan" placeholder="13 digit number">
-            </div>
-            <div class="col-4">
-              <label for="outgoing_product_code" class="form-label">Outgoing Product code<span class="text-body-secondary"></span></label>
-              <input type="text" class="form-control" id="outgoing_product_code" placeholder="e.g. AGILE-OUTGOING-19-05-13">
-            </div>
-            <div class="col-4">
-              <label for="outgoing_tariff_code" class="form-label">Outgoing Tariff code<span class="text-body-secondary"></span></label>
-              <input type="text" class="form-control" id="outgoing_tariff_code" placeholder="e.g. E-1R-AGILE-OUTGOING-19-05-13-B">
+            <div class="col-12">
+              <div class="col-4">
+                <label for="outgoing_mpan" class="form-label">Outgoing MPAN<span class="text-body-secondary"></span></label>
+                <input type="text" class="form-control" id="outgoing_mpan" placeholder="13 digit number">
+              </div>
+              <div class="col-4">
+                <label for="outgoing_product_code" class="form-label">Outgoing Product code<span class="text-body-secondary"></span></label>
+                <input type="text" class="form-control" id="outgoing_product_code" placeholder="e.g. AGILE-OUTGOING-19-05-13">
+              </div>
+              <div class="col-4">
+                <label for="outgoing_tariff_code" class="form-label">Outgoing Tariff code<span class="text-body-secondary"></span></label>
+                <input type="text" class="form-control" id="outgoing_tariff_code" placeholder="e.g. E-1R-AGILE-OUTGOING-19-05-13-B">
+              </div>
             </div>
           <hr class="my-4">
-
-          <button class="w-100 btn btn-primary btn-lg" onclick="saveSettings()">Save Settings</button>
+          <div class="col-4">
+            <button class="w-100 btn btn-primary btn-lg" onclick="saveSettings()">Save Settings</button>
+          </div>
+          
         </form>
       </div>
 	  </main>

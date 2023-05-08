@@ -159,29 +159,27 @@ function loadData() {
     var yesterday = new Date()
     yesterday.setDate(yesterday.getDate()-1)
 
-/*    var usageOptions = {
+    var usageOptions = {
       chart: {
         title: 'Usage'
       },
       series: {
         // Gives each series an axis name that matches the Y-axis below.
-          0: {axis: 'usage', type: 'bars'},
-          2: {axis: 'usage', type: 'bars'},
-          1: {axis: 'cost', type: 'steppedArea'},          
-          3: {axis: 'cost', type: 'steppedArea'}
+          0: {targetAxisIndex: 0, type: 'line'},
+          2: {targetAxisIndex: 0, type: 'line'},
+          1: {targetAxisIndex: 1, type: 'steppedArea'},          
+          3: {targetAxisIndex: 1, type: 'steppedArea'}
       },
-      axes: {
-        y: {
-          usage: {label: 'Usage (kWh)'},
-          cost: {label: 'Cost (pence)'}
-        }
+      vAxes: {
+        0: {title: 'Usage (kWh)'},
+        1: {title: 'Cost (pence)'}
       }
     };    
   
 
     var latestUsageChart = new google.visualization.ComboChart(document.getElementById('summary_usage_chart_div'));
     latestUsageChart.draw(daily_data, usageOptions);    
-*/
+/*
   var usageOptions = {
     chart: {
       title: 'Usage'
@@ -202,9 +200,9 @@ function loadData() {
   };    
 
 
-  var latestUsageChart = new google.visualization.Line(document.getElementById('summary_usage_chart_div'));
+  var latestUsageChart = new google.charts.Line(document.getElementById('summary_usage_chart_div'));
   latestUsageChart.draw(daily_data, usageOptions);  
-
+*/
   var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
     table.draw(daily_data, {showRowNumber: false, width: '100%', height: '100%'});   
 
