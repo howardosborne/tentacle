@@ -162,12 +162,12 @@ function loadData() {
     var usageOptions = {
       chart: {
         title: 'Usage',
-        'height':500
+        'height':800
       },
       series: {
         // Gives each series an axis name that matches the Y-axis below.
-          0: {targetAxisIndex: 0, type: 'bars'},
-          2: {targetAxisIndex: 0, type: 'bars'},
+          0: {targetAxisIndex: 0, type: 'line'},
+          2: {targetAxisIndex: 0, type: 'line'},
           1: {targetAxisIndex: 1, type: 'steppedArea'},          
           3: {targetAxisIndex: 1, type: 'steppedArea'}
       },
@@ -200,7 +200,7 @@ function loadData() {
           'containerId': 'prices_chart_div',
           'options': {
             chart: {title: 'prices',
-            'height':500},
+            'height':800},
             series: {
             // Gives each series an axis name that matches the Y-axis below.      
             0: {axis: 'import', type: 'line'},
@@ -234,20 +234,17 @@ function loadData() {
           'chartType': 'ComboChart',
           'containerId': 'usage_chart_div',
           'options': {
-            chart: {title: 'Cost vs Usage', 'height':500},
+            chart: {title: 'Cost vs Usage', 'height':800},
             series: {
-                // Gives each series an axis name that matches the Y-axis below.      
-                0: {axis: 'usage', type: 'line'},
-                1: {axis: 'cost', type: 'steppedArea'},          
-                2: {axis: 'usage', type: 'line'},
-                3: {axis: 'cost', type: 'steppedArea'}
+              // Gives each series an axis name that matches the Y-axis below.
+                0: {targetAxisIndex: 0, type: 'line'},
+                2: {targetAxisIndex: 0, type: 'line'},
+                1: {targetAxisIndex: 1, type: 'steppedArea'},          
+                3: {targetAxisIndex: 1, type: 'steppedArea'}
             },
-            axes: {
-                // Adds labels to each axis; they don't have to match the axis names.
-                y: {
-                usage: {label: 'Usage (kWh)'},
-                cost: {label: 'Cost (pence)'}
-                }
+            vAxes: {
+              0: {title: 'Usage (kWh)'},
+              1: {title: 'Cost (pence)'}
             }
             }
         });        
