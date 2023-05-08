@@ -127,14 +127,14 @@ function loadData() {
             data.addRow([new Date (item["valid_from"]),
                 Number(item["consumption"]),
                 Number(item["consumption_cost"]),
-                Number(item["export"]),
-                Number(item["export_earnings"])
+                Number(item["export"]) * -1,
+                Number(item["export_earnings"]) * -1
             ]);
                        
         }
         prices_data.addRow([new Date (item["valid_from"]),
           Number(item["value_inc_vat"]),
-          Number(item["export_value_inc_vat"]),
+          Number(item["export_value_inc_vat"]) * -1,
           Number(item["margin"])
         ]);               
     });
@@ -159,14 +159,14 @@ function loadData() {
     var yesterday = new Date()
     yesterday.setDate(yesterday.getDate()-1)
 
-    var materialOptions = {
+    var usageOptions = {
       chart: {
-        title: 'Usage and cost'
+        title: 'Usage'
       },
       series: {
         // Gives each series an axis name that matches the Y-axis below.
-          0: {axis: 'usage', type: 'line'},
-          2: {axis: 'usage', type: 'line'},
+          0: {axis: 'usage', type: 'bars'},
+          2: {axis: 'usage', type: 'bars'},
           1: {axis: 'cost', type: 'steppedArea'},          
           3: {axis: 'cost', type: 'steppedArea'}
       },
@@ -177,6 +177,7 @@ function loadData() {
         }
       }
     };    
+  
 
     var latestUsageChart = new google.visualization.ComboChart(document.getElementById('summary_usage_chart_div'));
     latestUsageChart.draw(daily_data, materialOptions);    
