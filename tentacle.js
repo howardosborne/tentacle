@@ -180,7 +180,7 @@ function loadData() {
   
 
     var latestUsageChart = new google.visualization.ComboChart(document.getElementById('summary_usage_chart_div'));
-    latestUsageChart.draw(daily_data, materialOptions);    
+    latestUsageChart.draw(daily_data, usageOptions);    
 
     var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
     table.draw(daily_data, {showRowNumber: false, width: '100%', height: '100%'});   
