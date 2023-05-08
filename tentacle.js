@@ -155,8 +155,6 @@ function loadData() {
         ]);  
       }
     }); 
-    //var table = new google.visualization.Table(document.getElementById('summary_usage_chart_div'));
-    //table.draw(daily_data, {showRowNumber: false, width: '100%', height: '100%'});
 
     var yesterday = new Date()
     yesterday.setDate(yesterday.getDate()-1)
@@ -182,6 +180,9 @@ function loadData() {
 
     var latestUsageChart = new google.visualization.ComboChart(document.getElementById('summary_usage_chart_div'));
     latestUsageChart.draw(daily_data, materialOptions);    
+
+    var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
+    table.draw(daily_data, {showRowNumber: false, width: '100%', height: '100%'});   
 
     // Create a dashboard.
     var prices_dashboard = new google.visualization.Dashboard(document.getElementById('prices_dashboard_div'));
