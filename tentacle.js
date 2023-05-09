@@ -150,24 +150,6 @@ function loadData() {
 
     var formatter = new Intl.NumberFormat('en-UK', {style: 'currency', currency: 'GBP'});
 
-    //for each day need sum of costs
-  /*  Object.entries(output).forEach(function([key, item]) {
-        if ("export_earnings" in item){
-            data.addRow([new Date (item["valid_from"]),
-                Number(item["consumption"]),
-                {v: Number(item["consumption_cost"]), f: formatter.format(Number(item["consumption_cost"])/100)},
-                Number(item["export"]) * -1,
-                {v: Number(item["export_earnings"]) * -1, f: formatter.format(Number(item["export_earnings"])/100)}
-            ]);
-                       
-        }
-        prices_data.addRow([new Date (item["valid_from"]),
-          {v: Number(item["value_inc_vat"]), f: formatter.format(Number(item["value_inc_vat"])/100)},
-          {v: Number(item["export_value_inc_vat"]), f: formatter.format(Number(item["export_value_inc_vat"])/100)},
-          {v: Number(item["margin"]), f: formatter.format(Number(item["margin"])/100)}
-        ]);               
-    });
-*/
     Object.entries(output).forEach(function([key, item]) {
         if ("export_earnings" in item){
             consumption_data.addRow([new Date (item["valid_from"]),
@@ -205,7 +187,8 @@ function loadData() {
       else{
         daily_prices_data.addRow([new Date (key),
           {v: Number(item["value_inc_vat"])/48, f: formatter.format(Number(item["value_inc_vat"])/4800)},
-          {v: Number(item["export_value_inc_vat"])/48, f: formatter.format(Number(item["export_value_inc_vat"])/4800)}
+          {v: Number(item["export_value_inc_vat"])/48, f: formatter.format(Number(item["export_value_inc_vat"])/4800)},
+          {v: Number(item["margin"]), f: formatter.format(Number(item["margin"])/100)}
         ]);
       }
     }); 
@@ -246,7 +229,7 @@ function loadData() {
     };    
   
     var latestCostChart = new google.visualization.ComboChart(document.getElementById('summary_cost_chart_div'));
-    latestCostChart.draw(daily_cost_data, usageOptions);
+    latestCostChart.draw(daily_cost_data, costOptions);
 
 
     var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
