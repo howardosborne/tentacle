@@ -244,7 +244,7 @@ function loadData() {
     var prices_view = new google.visualization.DataView(prices_data);
     prices_view.setRows(prices_data.getFilteredRows([{column: 0, minValue: new Date()}]));
 
-    var upcomingPricesLineChart = new visualization.LineChart('upcoming_prices_chart_div');
+    var upcomingPricesLineChart = new google.visualization.LineChart('upcoming_prices_chart_div');
     upcomingPricesLineChart.draw(prices_view);
     // Create a dashboard.
     var prices_dashboard = new google.visualization.Dashboard(document.getElementById('prices_dashboard_div'));
