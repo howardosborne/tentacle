@@ -194,35 +194,24 @@ function loadData() {
     }); 
 
     var usageOptions = {
-      chart: {
-        title: 'Usage',
-        'height':800
-      },
+      chart: {title: 'Usage', 'height':800},
       series: {
         // Gives each series an axis name that matches the Y-axis below.
           0: {targetAxisIndex: 0, type: 'steppedArea'},
           1: {targetAxisIndex: 0, type: 'steppedArea'},
           2: {targetAxisIndex: 0, type: 'area'}         
       },
-      vAxes: {
-        0: {title: 'Usage (kWh)'},
-      }
+      vAxes: {0: {title: 'Usage (kWh)'}}
     };    
   
     var costOptions = {
-      chart: {
-        title: 'Cost',
-        'height':800
-      },
+      chart: {title: 'Cost','height':800},
       series: {
-        // Gives each series an axis name that matches the Y-axis below.
           0: {targetAxisIndex: 0, type: 'steppedArea'},
           1: {targetAxisIndex: 0, type: 'steppedArea'},
           2: {targetAxisIndex: 0, type: 'area'}         
       },
-      vAxes: {
-        0: {title: 'Usage (kWh)'},
-      }
+      vAxes: {0: {title: 'Usage (kWh)'}}
     };   
 
     var latestCostChart = new google.visualization.ComboChart(document.getElementById('daily_cost_chart_div'));
@@ -237,62 +226,50 @@ function loadData() {
     var table = new google.visualization.Table(document.getElementById('daily_consumption_table_div'));
     table.draw(daily_consumption_data, {showRowNumber: false, width: '100%', height: '100%'});   
 
-
     var yesterday = new Date()
     yesterday.setDate(yesterday.getDate()-1)
-    //future prices
+
     var prices_view = new google.visualization.DataView(prices_data);
     prices_view.setRows(prices_data.getFilteredRows([{column: 0, minValue: new Date()}]));
 
     var upcomingPricesLineChart = new google.visualization.LineChart(document.getElementById('upcoming_prices_chart_div'));
     upcomingPricesLineChart.draw(prices_view);
-    // Create a dashboard.
+
+    var upcomingPricesTable = new google.visualization.Table(document.getElementById('upcoming_prices_table_div'));
+    upcomingPricesTable.draw(prices_view, {showRowNumber: false});    
+
     var prices_dashboard = new google.visualization.Dashboard(document.getElementById('prices_dashboard_div'));
  
-    // Create a range slider, passing some options
-        var pricesRangeSlider = new google.visualization.ControlWrapper({
+    var pricesRangeSlider = new google.visualization.ControlWrapper({
           'controlType': 'ChartRangeFilter',
           'containerId': 'prices_filter_div',
-          'options': {
-            'filterColumnLabel': 'Time'
-          }
-        });
-        var pricesLineChart  = new google.visualization.ChartWrapper({
+          'options': {'filterColumnLabel': 'Time'}
+    });
+    var pricesLineChart  = new google.visualization.ChartWrapper({
           'chartType': 'ComboChart',
           'containerId': 'prices_chart_div',
           'options': {
-            chart: {title: 'prices',
-            'height':800},
+            chart: {title: 'prices', 'height':800},
             series: {
-            // Gives each series an axis name that matches the Y-axis below.      
-            0: {axis: 'import', type: 'line'},
-            1: {axis: 'export', type: 'line'},          
-            2: {axis: 'margin', type: 'line'}
+              0: {axis: 'import', type: 'line'},
+              1: {axis: 'export', type: 'line'},          
+              2: {axis: 'margin', type: 'line'}
             },
-            axes: {
-                // Adds labels to each axis; they don't have to match the axis names.
-                y: {
-                cost: {label: 'Cost (pence)'},
-                }
-            }
-            }
-        });        
+            axes: {y: {cost: {label: 'Cost (pence)'}}}
+          }
+    });        
 
-      prices_dashboard.bind(pricesRangeSlider, pricesLineChart);
-      prices_dashboard.draw(prices_data);
+    prices_dashboard.bind(pricesRangeSlider, pricesLineChart);
+    prices_dashboard.draw(prices_data);
 
-        // Create a dashboard.
-        var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
+    var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
  
-        // Create a range slider, passing some options
-        var rangeSlider = new google.visualization.ControlWrapper({
+    var rangeSlider = new google.visualization.ControlWrapper({
           'controlType': 'ChartRangeFilter',
           'containerId': 'usage_filter_div',
-          'options': {
-            'filterColumnLabel': 'Time'
-          }
-        });
-        var lineChart  = new google.visualization.ChartWrapper({
+          'options': {'filterColumnLabel': 'Time'}
+    });
+    var lineChart  = new google.visualization.ChartWrapper({
           'chartType': 'ComboChart',
           'containerId': 'usage_chart_div',
           'options': {
@@ -304,11 +281,8 @@ function loadData() {
                 1: {targetAxisIndex: 1, type: 'area'},          
                 3: {targetAxisIndex: 1, type: 'area'}
             },
-            vAxes: {
-              0: {title: 'Usage (kWh)'},
-              1: {title: 'Cost (pence)'}
-            }
-            }
+            vAxes: {0: {title: 'Usage (kWh)'}, 1: {title: 'Cost (pence)'}}
+          }
         });        
 
       dashboard.bind(rangeSlider, lineChart);
