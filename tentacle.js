@@ -209,12 +209,6 @@ function loadData() {
       }
     };    
   
-    var latestUsageChart = new google.visualization.ComboChart(document.getElementById('summary_consumption_chart_div'));
-    latestUsageChart.draw(daily_consumption_data, usageOptions);    
-
-    var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
-    table.draw(daily_consumption_data, {showRowNumber: false, width: '100%', height: '100%'});   
-
     var costOptions = {
       chart: {
         title: 'Cost',
@@ -229,17 +223,26 @@ function loadData() {
       vAxes: {
         0: {title: 'Usage (kWh)'},
       }
-    };    
-  
-    var latestCostChart = new google.visualization.ComboChart(document.getElementById('summary_cost_chart_div'));
+    };   
+
+    var latestCostChart = new google.visualization.ComboChart(document.getElementById('daily_cost_chart_div'));
     latestCostChart.draw(daily_cost_data, costOptions);
+
+    var table = new google.visualization.Table(document.getElementById('daily_cost_table_div'));
+    table.draw(daily_cost_data, {showRowNumber: false, width: '100%', height: '100%'}); 
+
+    var latestUsageChart = new google.visualization.ComboChart(document.getElementById('daily_consumption_chart_div'));
+    latestUsageChart.draw(daily_consumption_data, usageOptions);    
+
+    var table = new google.visualization.Table(document.getElementById('daily_consumption_table_div'));
+    table.draw(daily_consumption_data, {showRowNumber: false, width: '100%', height: '100%'});   
 
 
     var yesterday = new Date()
     yesterday.setDate(yesterday.getDate()-1)
     //future prices
     var prices_view = new google.visualization.DataView(prices_data);
-    prices_view.setRows(prices_view.getFilteredRows([{column: 0, minValue: new Date()}]));
+    prices_view.setRows(prices_data.getFilteredRows([{column: 0, minValue: new Date()}]));
 
     var upcomingPricesLineChart  = new google.visualization.ChartWrapper({
       'chartType': 'ComboChart',
