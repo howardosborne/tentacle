@@ -118,16 +118,16 @@ function loadData() {
     data.addColumn({ type: 'number', id: 'exported_cost', label : 'Exported Value' });  
   
     var consumption_data = new google.visualization.DataTable();
-    data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
-    data.addColumn({ type: 'number', id: 'imported', label : 'Imported' });
-    data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
-    data.addColumn({ type: 'number', id: 'net_energy_imported', label : 'Net energy imported' });  
+    consumption_data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
+    consumption_data.addColumn({ type: 'number', id: 'imported', label : 'Imported' });
+    consumption_data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
+    consumption_data.addColumn({ type: 'number', id: 'net_energy_imported', label : 'Net energy imported' });  
 
     var cost_data = new google.visualization.DataTable();
-    data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
-    data.addColumn({ type: 'number', id: 'imported_cost', label : 'Import cost' });
-    data.addColumn({ type: 'number', id: 'exported_cost', label : 'Export value' });
-    data.addColumn({ type: 'number', id: 'net_cost', label : 'Net cost' });
+    cost_data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
+    cost_data.addColumn({ type: 'number', id: 'imported_cost', label : 'Import cost' });
+    cost_data.addColumn({ type: 'number', id: 'exported_cost', label : 'Export value' });
+    cost_data.addColumn({ type: 'number', id: 'net_cost', label : 'Net cost' });
 
     var daily_data = new google.visualization.DataTable();
     daily_data.addColumn({ type: 'date', id: 'timestamp', label : 'Day'});
@@ -137,16 +137,16 @@ function loadData() {
     daily_data.addColumn({ type: 'number', id: 'exported_cost', label : 'Exported Value' });    
 
     var daily_consumption_data = new google.visualization.DataTable();
-    data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
-    data.addColumn({ type: 'number', id: 'imported', label : 'Imported' });
-    data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
-    data.addColumn({ type: 'number', id: 'net_energy_imported', label : 'Net energy imported' });  
+    daily_consumption_data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
+    daily_consumption_data.addColumn({ type: 'number', id: 'imported', label : 'Imported' });
+    daily_consumption_data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
+    daily_consumption_data.addColumn({ type: 'number', id: 'net_energy_imported', label : 'Net energy imported' });  
 
     var daily_cost_data = new google.visualization.DataTable();
-    data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
-    data.addColumn({ type: 'number', id: 'imported_cost', label : 'Import cost' });
-    data.addColumn({ type: 'number', id: 'exported_cost', label : 'Export value' });
-    data.addColumn({ type: 'number', id: 'net_cost', label : 'Net cost' });
+    daily_cost_data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
+    daily_cost_data.addColumn({ type: 'number', id: 'imported_cost', label : 'Import cost' });
+    daily_cost_data.addColumn({ type: 'number', id: 'exported_cost', label : 'Export value' });
+    daily_cost_data.addColumn({ type: 'number', id: 'net_cost', label : 'Net cost' });
 
     var formatter = new Intl.NumberFormat('en-UK', {style: 'currency', currency: 'GBP'});
 
