@@ -137,13 +137,13 @@ function loadData() {
     daily_data.addColumn({ type: 'number', id: 'exported_cost', label : 'Exported Value' });    
 
     var daily_consumption_data = new google.visualization.DataTable();
-    daily_consumption_data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
+    daily_consumption_data.addColumn({ type: 'date', id: 'timestamp', label : 'Day'});
     daily_consumption_data.addColumn({ type: 'number', id: 'imported', label : 'Imported' });
     daily_consumption_data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
     daily_consumption_data.addColumn({ type: 'number', id: 'net_energy_imported', label : 'Net energy imported' });  
 
     var daily_cost_data = new google.visualization.DataTable();
-    daily_cost_data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
+    daily_cost_data.addColumn({ type: 'date', id: 'timestamp', label : 'Day'});
     daily_cost_data.addColumn({ type: 'number', id: 'imported_cost', label : 'Import cost' });
     daily_cost_data.addColumn({ type: 'number', id: 'exported_cost', label : 'Export value' });
     daily_cost_data.addColumn({ type: 'number', id: 'net_cost', label : 'Net cost' });
@@ -173,12 +173,12 @@ function loadData() {
 
     Object.entries(daily_info).forEach(function([key, item]) {
       if ("export_earnings" in item){ 
-        daily_consumption_data.addRow([new Date (item["valid_from"]),
+        daily_consumption_data.addRow([new Date (key),
                 Number(item["consumption"]),
                 Number(item["export"]) * -1,
                 Number(item["net_energy_imported"])
             ]);
-        daily_cost_data.addRow([new Date (item["valid_from"]),
+        daily_cost_data.addRow([new Date (key),
                 {v: Number(item["consumption_cost"]), f: formatter.format(Number(item["consumption_cost"])/100)},
                 {v: Number(item["export_earnings"]) * -1, f: formatter.format(Number(item["export_earnings"])/100)},
                 {v: Number(item["net_cost"]) * -1, f: formatter.format(Number(item["net_cost"])/100)}
@@ -212,6 +212,9 @@ function loadData() {
     var latestUsageChart = new google.visualization.ComboChart(document.getElementById('summary_consumption_chart_div'));
     latestUsageChart.draw(daily_consumption_data, usageOptions);    
 
+    var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
+    table.draw(daily_consumption_data, {showRowNumber: false, width: '100%', height: '100%'});   
+
     var costOptions = {
       chart: {
         title: 'Cost',
@@ -231,9 +234,6 @@ function loadData() {
     var latestCostChart = new google.visualization.ComboChart(document.getElementById('summary_cost_chart_div'));
     latestCostChart.draw(daily_cost_data, costOptions);
 
-
-    var table = new google.visualization.Table(document.getElementById('summary_usage_table_div'));
-    table.draw(daily_data, {showRowNumber: false, width: '100%', height: '100%'});   
 
     var yesterday = new Date()
     yesterday.setDate(yesterday.getDate()-1)
