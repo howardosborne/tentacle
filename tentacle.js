@@ -244,27 +244,8 @@ function loadData() {
     var prices_view = new google.visualization.DataView(prices_data);
     prices_view.setRows(prices_data.getFilteredRows([{column: 0, minValue: new Date()}]));
 
-    var upcomingPricesLineChart  = new google.visualization.ChartWrapper({
-      'chartType': 'ComboChart',
-      'containerId': 'upcoming_prices_chart_div',
-      'options': {
-        chart: {title: 'upcoming prices',
-        'height':800},
-        series: {
-        // Gives each series an axis name that matches the Y-axis below.      
-        0: {axis: 'import', type: 'line'},
-        1: {axis: 'export', type: 'line'},          
-        2: {axis: 'margin', type: 'line'}
-        },
-        axes: {
-            // Adds labels to each axis; they don't have to match the axis names.
-            y: {
-            cost: {label: 'Cost (pence)'},
-            }
-        }
-        }
-    });     
-    upcomingPricesLineChart.draw(prices_view)
+    var upcomingPricesLineChart = new visualization.LineChart('upcoming_prices_chart_div');
+    upcomingPricesLineChart.draw(prices_view);
     // Create a dashboard.
     var prices_dashboard = new google.visualization.Dashboard(document.getElementById('prices_dashboard_div'));
  
