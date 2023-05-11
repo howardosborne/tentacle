@@ -1,5 +1,4 @@
 google.charts.load("current", {packages:["table",'line', 'corechart', 'controls']});
-//google.charts.setOnLoadCallback(loadData); 
 
 function loadData() {
     var output = {}
@@ -192,9 +191,9 @@ function loadData() {
       chart: {title: 'Usage', 'height':800},
       series: {
         // Gives each series an axis name that matches the Y-axis below.
-          0: {targetAxisIndex: 0, type: 'steppedArea'},
-          1: {targetAxisIndex: 0, type: 'steppedArea'},
-          2: {targetAxisIndex: 0, type: 'area'}         
+          0: {targetAxisIndex: 0, type: 'bars'},
+          1: {targetAxisIndex: 0, type: 'bars'},
+          2: {targetAxisIndex: 0, type: 'bars'}         
       },
       vAxes: {0: {title: 'Usage (kWh)'}}
     };    
@@ -202,12 +201,12 @@ function loadData() {
     var costOptions = {
       chart: {title: 'Cost','height':800},
       series: {
-          0: {targetAxisIndex: 0, type: 'steppedArea'},
-          1: {targetAxisIndex: 0, type: 'steppedArea'},
-          2: {targetAxisIndex: 0, type: 'area'}         
+          0: {targetAxisIndex: 0, type: 'bars'},
+          1: {targetAxisIndex: 0, type: 'bars'},
+          2: {targetAxisIndex: 0, type: 'bars'}         
       },
-      vAxes: {0: {title: 'Usage (kWh)'}}
-    };   
+      vAxes: {0: {title: 'Cost (pence)'}}
+    };
 
     var latestCostChart = new google.visualization.ComboChart(document.getElementById('daily_cost_chart_div'));
     latestCostChart.draw(daily_cost_data, costOptions);
@@ -246,9 +245,9 @@ function loadData() {
           'options': {
             chart: {title: 'prices', 'height':800},
             series: {
-              0: {axis: 'import', type: 'line'},
-              1: {axis: 'export', type: 'line'},          
-              2: {axis: 'margin', type: 'line'}
+              0: {axis: 'cost', type: 'line'},
+              1: {axis: 'cost', type: 'line'},          
+              2: {axis: 'cost', type: 'line'}
             },
             axes: {y: {cost: {label: 'Cost (pence)'}}}
           }
@@ -268,15 +267,14 @@ function loadData() {
           'chartType': 'ComboChart',
           'containerId': 'usage_chart_div',
           'options': {
-            chart: {title: 'Cost vs Usage', 'height':800},
+            chart: {title: 'Usage', 'height':800},
             series: {
               // Gives each series an axis name that matches the Y-axis below.
                 0: {targetAxisIndex: 0, type: 'line'},
-                2: {targetAxisIndex: 0, type: 'line'},
-                1: {targetAxisIndex: 1, type: 'area'},          
-                3: {targetAxisIndex: 1, type: 'area'}
+                1: {targetAxisIndex: 0, type: 'line'},
+                2: {targetAxisIndex: 0, type: 'line'}
             },
-            vAxes: {0: {title: 'Usage (kWh)'}, 1: {title: 'Cost (pence)'}}
+            vAxes: {0: {title: 'Usage (kWh)'}}
           }
         });        
 
