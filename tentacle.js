@@ -42,10 +42,10 @@ function loadData() {
           daily_info[day_timestamp] = {}
           daily_info[day_timestamp]["value_inc_vat"] = Number(response.results[i]["value_inc_vat"])
           daily_info[day_timestamp]["export_value_inc_vat"] = 0
-          daily_info[day_timestamp]["consumption"] = 0
-          daily_info[day_timestamp]["consumption_cost"] = 0
-          daily_info[day_timestamp]["export"] = 0
-          daily_info[day_timestamp]["export_earnings"] = 0
+          daily_info[day_timestamp]["imported"] = 0
+          daily_info[day_timestamp]["import_value"] = 0
+          daily_info[day_timestamp]["exported"] = 0
+          daily_info[day_timestamp]["export_value"] = 0		  
         }
      }
     //get export prices
@@ -70,12 +70,11 @@ function loadData() {
         //process the timestamp
         var timestamp = new Date(response.results[i]["interval_start"]).toLocaleString();
         //    if timestamp in output:
-        output[timestamp]["consumption"] = response.results[i]["consumption"]
-        output[timestamp]["consumption_cost"] = (response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]).toFixed(2)
+        output[timestamp]["imported"] = response.results[i]["consumption"]
+        output[timestamp]["import_value"] = (response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]).toFixed(2)
         var day_timestamp = response.results[i]["interval_start"].substring(0,10)
-        daily_info[day_timestamp]["consumption"]  += Number(response.results[i]["consumption"])
-        daily_info[day_timestamp]["net_energy_imported"] += Number(response.results[i]["consumption"])
-        daily_info[day_timestamp]["consumption_cost"]  += Number((response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]))
+        daily_info[day_timestamp]["imported"]  += Number(response.results[i]["consumption"])
+        daily_info[day_timestamp]["import_value"]  += Number((response.results[i]["consumption"] * output[timestamp]["value_inc_vat"]))
     }    
     
     //get exported energy
@@ -87,15 +86,11 @@ function loadData() {
         //process the timestamp
         var timestamp = new Date(response.results[i]["interval_start"]).toLocaleString();
         //    if timestamp in output:
-        output[timestamp]["export"] = response.results[i]["consumption"]
-        output[timestamp]["net_energy_imported"] = output[timestamp]["consumption"] - output[timestamp]["export"]
-        output[timestamp]["export_earnings"] = (response.results[i]["consumption"] * output[timestamp]["export_value_inc_vat"]).toFixed(2)
-        output[timestamp]["net_cost"] = output[timestamp]["consumption_cost"] - output[timestamp]["export_earnings"]
+        output[timestamp]["exported"] = response.results[i]["consumption"]
+        output[timestamp]["export_value"] = (response.results[i]["consumption"] * output[timestamp]["export_value_inc_vat"]).toFixed(2)
         var day_timestamp = response.results[i]["interval_start"].substring(0,10)
-        daily_info[day_timestamp]["export"]  += Number(response.results[i]["consumption"])
-        daily_info[day_timestamp]["net_energy_imported"] -= Number(response.results[i]["consumption"])
-        daily_info[day_timestamp]["export_earnings"]  += Number(response.results[i]["consumption"] * output[timestamp]["value_inc_vat"])
-        daily_info[day_timestamp]["consumption_cost"] -= Number(response.results[i]["consumption"] * output[timestamp]["value_inc_vat"])
+        daily_info[day_timestamp]["exported"]  += Number(response.results[i]["consumption"])
+        daily_info[day_timestamp]["export_value"]  += Number(response.results[i]["consumption"] * output[timestamp]["value_inc_vat"])
     }
 
     var prices_data = new google.visualization.DataTable();
@@ -153,14 +148,14 @@ function loadData() {
     Object.entries(output).forEach(function([key, item]) {
         if ("export_earnings" in item){
             consumption_data.addRow([new Date (item["valid_from"]),
-                Number(item["consumption"]),
-                Number(item["export"]) * -1,
-                Number(item["net_energy_imported"])
+                Number(item["imported"]),
+                Number(item["exported"]) * -1,
+                Number(item["imported"]) - Number(item["exported"])
             ]);
             cost_data.addRow([new Date (item["valid_from"]),
-                {v: Number(item["consumption_cost"]), f: formatter.format(Number(item["consumption_cost"])/100)},
-                {v: Number(item["export_earnings"]) * -1, f: formatter.format(Number(item["export_earnings"])/100)},
-                {v: Number(item["net_cost"]) * -1, f: formatter.format(Number(item["net_cost"])/100)}
+                {v: Number(item["import_value"]), f: formatter.format(Number(item["import_value"])/100)},
+                {v: Number(item["export_value"]) * -1, f: formatter.format(Number(item["export_value"])/100)},
+                {v: Number(item["import_value"]) - Number(item["export_value"]), f: formatter.format(Number(item["import_value"]) - Number(item["export_value"])/100)}
             ]);
         }
         prices_data.addRow([new Date (item["valid_from"]),
@@ -174,14 +169,14 @@ function loadData() {
     Object.entries(daily_info).forEach(function([key, item]) {
       if ("export_earnings" in item){ 
         daily_consumption_data.addRow([new Date (key),
-                Number(item["consumption"]),
-                Number(item["export"]) * -1,
-                Number(item["net_energy_imported"])
+                Number(item["imported"]),
+                Number(item["exported"]) * -1,
+                Number(item["imported"]) - Number(item["exported"])
             ]);
         daily_cost_data.addRow([new Date (key),
-                {v: Number(item["consumption_cost"]), f: formatter.format(Number(item["consumption_cost"])/100)},
-                {v: Number(item["export_earnings"]) * -1, f: formatter.format(Number(item["export_earnings"])/100)},
-                {v: Number(item["net_cost"]) * -1, f: formatter.format(Number(item["net_cost"])/100)}
+                {v: Number(item["import_value"]), f: formatter.format(Number(item["import_value"])/100)},
+                {v: Number(item["export_value"]) * -1, f: formatter.format(Number(item["export_value"])/100)},
+                {v: Number(item["import_value"]) - Number(item["export_value"]), f: formatter.format(Number(item["import_value"]) - Number(item["export_value"])/100)}
             ]);       
       }
       else{
