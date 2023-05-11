@@ -146,7 +146,7 @@ function loadData() {
     var formatter = new Intl.NumberFormat('en-UK', {style: 'currency', currency: 'GBP'});
 
     Object.entries(output).forEach(function([key, item]) {
-        if ("export_earnings" in item){
+        if ("export_value" in item){
             consumption_data.addRow([new Date (item["valid_from"]),
                 Number(item["imported"]),
                 Number(item["exported"]) * -1,
@@ -167,7 +167,7 @@ function loadData() {
 
 
     Object.entries(daily_info).forEach(function([key, item]) {
-      if ("export_earnings" in item){ 
+      if ("export_value" in item){ 
         daily_consumption_data.addRow([new Date (key),
                 Number(item["imported"]),
                 Number(item["exported"]) * -1,
@@ -281,10 +281,10 @@ function loadData() {
         });        
 
       dashboard.bind(rangeSlider, lineChart);
-      dashboard.draw(data);
+      dashboard.draw(consumption_data);
 
     var table = new google.visualization.Table(document.getElementById('full_table'));
-    table.draw(data, {showRowNumber: false});
+    table.draw(consumption_data, {showRowNumber: false});
  }
  
  function setCookie(cname, cvalue) {
