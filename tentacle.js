@@ -25,7 +25,7 @@ function loadData() {
     daily_cost_data = new google.visualization.DataTable();
 
     var from = new Date()
-    from.setDate(from.getDate()-90)
+    from.setDate(from.getDate()-30)
     var date_from = from.toISOString().substring(0,10)
     var period_from = date_from + "T00:00Z"
 
@@ -190,7 +190,7 @@ function loadData() {
       if ("export_value" in item){ 
         daily_consumption_data.addRow([new Date (key),
                 Number(item["imported"]),
-                Number(item["exported"]) * -1,
+                {v: Number(item["export"]) * -1, f: Number(item["export"])},
                 Number(item["imported"]) - Number(item["exported"])
             ]);
         daily_cost_data.addRow([new Date (key),
@@ -303,7 +303,7 @@ function loadData() {
       dashboard.draw(consumption_data);
 
     var table = new google.visualization.Table(document.getElementById('full_table'));
-    table.draw(consumption_data, {showRowNumber: false});
+    table.draw(data, {showRowNumber: false});
  }
  
  function setCookie(cname, cvalue) {
@@ -341,10 +341,12 @@ function saveSettings(){
 function downloadData(){	
   var headers = "timestamp,import_price,export_price,margin,imported,exported,net_import,import_value,export_value,net_value\n";
   var csvFormattedDataTable = google.visualization.dataTableToCsv(data);
-  var encodedUri = 'data:application/csv;charset=utf-8,' + headers+ encodeURIComponent(csvFormattedDataTable);
-  this.href = encodedUri;
-  this.download = "summary.csv";
-  this.target = '_blank';
+  var encodedUri = 'data:application/csv;charset=utf-8,' + encodeURIComponent(headers) + encodeURIComponent(csvFormattedDataTable);
+  var link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "energy_usage_and_cost_summary.csv");
+  document.body.appendChild(link);
+  link.click();
 }
 
 function checkSettings(){
