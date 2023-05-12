@@ -115,11 +115,16 @@ function loadData() {
     daily_prices_data.addColumn({ type: 'number', id: 'margin', label : 'Margin' });
 
     data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
+    data.addColumn({ type: 'number', id: 'import_price', label : 'Import Price'});
+    data.addColumn({ type: 'number', id: 'export_price', label : 'Export Price' });
+    data.addColumn({ type: 'number', id: 'margin', label : 'Margin' });	
     data.addColumn({ type: 'number', id: 'imported', label : 'Imported' });
-    data.addColumn({ type: 'number', id: 'imported_cost', label : 'Imported Cost' });
     data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
-    data.addColumn({ type: 'number', id: 'exported_cost', label : 'Exported Value' });  
-  
+    data.addColumn({ type: 'number', id: 'net_energy_imported', label : 'Net energy imported' });  
+    data.addColumn({ type: 'number', id: 'imported_cost', label : 'Import cost' });
+    data.addColumn({ type: 'number', id: 'exported_cost', label : 'Export value' });
+    data.addColumn({ type: 'number', id: 'net_cost', label : 'Net cost' });
+	
     consumption_data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
     consumption_data.addColumn({ type: 'number', id: 'imported', label : 'Imported' });
     consumption_data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
@@ -166,7 +171,18 @@ function loadData() {
           {v: Number(item["value_inc_vat"]), f: formatter.format(Number(item["value_inc_vat"])/100)},
           {v: Number(item["export_value_inc_vat"]), f: formatter.format(Number(item["export_value_inc_vat"])/100)},
           {v: Number(item["margin"]), f: formatter.format(Number(item["margin"])/100)}
-        ]);               
+        ]);      
+		data.addRow([new Date (item["valid_from"]),
+          {v: Number(item["value_inc_vat"]), f: formatter.format(Number(item["value_inc_vat"])/100)},
+          {v: Number(item["export_value_inc_vat"]), f: formatter.format(Number(item["export_value_inc_vat"])/100)},
+          {v: Number(item["margin"]), f: formatter.format(Number(item["margin"])/100)},
+          Number(item["imported"]),
+          Number(item["exported"]) * -1,
+          Number(item["imported"]) - Number(item["exported"]),
+		  {v: Number(item["import_value"]), f: formatter.format(Number(item["import_value"])/100)},
+          {v: Number(item["export_value"]) * -1, f: formatter.format(Number(item["export_value"])/100)},
+          {v: Number(item["import_value"]) - Number(item["export_value"]), f: formatter.format(Number(item["import_value"]) - Number(item["export_value"])/100)}		 
+        ]);	
     });
 
 
@@ -331,14 +347,19 @@ function downloadData(){
   //daily_data
   //daily_consumption_data
   //daily_cost_data
-  makeCSV(data, "energy_data.csv")
+  //makeCSV(prices_data, "prices_data.csv")
+  //makeCSV(consumption_data, "consumption_data.csv")
+  //makeCSV(cost_data, "cost_data.csv")
+	makeCSV(data, "energy_data.csv")
 }
 function makeCSV(dataTable, csvName){
+  console.log(csvName)
   var csvFormattedDataTable = google.visualization.dataTableToCsv(dataTable);
   var encodedUri = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csvFormattedDataTable);
   this.href = encodedUri;
   this.download = csvName;
   this.target = '_blank';
+	console.log(encodedUri)
 }
 function checkSettings(){
 	if(getCookie("api_key") == ""){
