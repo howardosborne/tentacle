@@ -1,5 +1,14 @@
 google.charts.load("current", {packages:["table",'line', 'corechart', 'controls']});
 
+var prices_data = new google.visualization.DataTable();
+var daily_prices_data = new google.visualization.DataTable();
+var data = new google.visualization.DataTable();
+var consumption_data = new google.visualization.DataTable();
+var cost_data = new google.visualization.DataTable();
+var daily_data = new google.visualization.DataTable();
+var daily_consumption_data = new google.visualization.DataTable();
+var daily_cost_data = new google.visualization.DataTable();
+
 function loadData() {
     var output = {}
     var daily_info = {}
@@ -13,7 +22,7 @@ function loadData() {
     var serial = document.getElementById('serial').value
 
     var from = new Date()
-    from.setDate(from.getDate()-7)
+    from.setDate(from.getDate()-28)
     var date_from = from.toISOString().substring(0,10)
     var period_from = date_from + "T00:00Z"
 
@@ -92,51 +101,44 @@ function loadData() {
         daily_info[day_timestamp]["export_value"]  += Number(response.results[i]["consumption"] * output[timestamp]["value_inc_vat"])
     }
 
-    var prices_data = new google.visualization.DataTable();
     prices_data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
     prices_data.addColumn({ type: 'number', id: 'import_price', label : 'Import Price'});
     prices_data.addColumn({ type: 'number', id: 'export_price', label : 'Export Price' });
     prices_data.addColumn({ type: 'number', id: 'margin', label : 'Margin' });
 
-    var daily_prices_data = new google.visualization.DataTable();
     daily_prices_data.addColumn({ type: 'date', id: 'timestamp', label : 'Day'});
     daily_prices_data.addColumn({ type: 'number', id: 'import_price', label : 'Import Price'});
     daily_prices_data.addColumn({ type: 'number', id: 'export_price', label : 'Export Price' });
     daily_prices_data.addColumn({ type: 'number', id: 'margin', label : 'Margin' });
 
-    var data = new google.visualization.DataTable();
     data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
     data.addColumn({ type: 'number', id: 'imported', label : 'Imported' });
     data.addColumn({ type: 'number', id: 'imported_cost', label : 'Imported Cost' });
     data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
     data.addColumn({ type: 'number', id: 'exported_cost', label : 'Exported Value' });  
   
-    var consumption_data = new google.visualization.DataTable();
     consumption_data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
     consumption_data.addColumn({ type: 'number', id: 'imported', label : 'Imported' });
     consumption_data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
     consumption_data.addColumn({ type: 'number', id: 'net_energy_imported', label : 'Net energy imported' });  
 
-    var cost_data = new google.visualization.DataTable();
     cost_data.addColumn({ type: 'datetime', id: 'timestamp', label : 'Time'});
     cost_data.addColumn({ type: 'number', id: 'imported_cost', label : 'Import cost' });
     cost_data.addColumn({ type: 'number', id: 'exported_cost', label : 'Export value' });
     cost_data.addColumn({ type: 'number', id: 'net_cost', label : 'Net cost' });
 
-    var daily_data = new google.visualization.DataTable();
+    
     daily_data.addColumn({ type: 'date', id: 'timestamp', label : 'Day'});
     daily_data.addColumn({ type: 'number', id: 'imported', label : 'Imported' });
     daily_data.addColumn({ type: 'number', id: 'imported_cost', label : 'Imported Cost' });
     daily_data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
     daily_data.addColumn({ type: 'number', id: 'exported_cost', label : 'Exported Value' });    
 
-    var daily_consumption_data = new google.visualization.DataTable();
     daily_consumption_data.addColumn({ type: 'date', id: 'timestamp', label : 'Day'});
     daily_consumption_data.addColumn({ type: 'number', id: 'imported', label : 'Imported' });
     daily_consumption_data.addColumn({ type: 'number', id: 'exported', label : 'Exported' });
     daily_consumption_data.addColumn({ type: 'number', id: 'net_energy_imported', label : 'Net energy imported' });  
 
-    var daily_cost_data = new google.visualization.DataTable();
     daily_cost_data.addColumn({ type: 'date', id: 'timestamp', label : 'Day'});
     daily_cost_data.addColumn({ type: 'number', id: 'imported_cost', label : 'Import cost' });
     daily_cost_data.addColumn({ type: 'number', id: 'exported_cost', label : 'Export value' });
@@ -175,7 +177,7 @@ function loadData() {
         daily_cost_data.addRow([new Date (key),
                 {v: Number(item["import_value"]), f: formatter.format(Number(item["import_value"])/100)},
                 {v: Number(item["export_value"]) * -1, f: formatter.format(Number(item["export_value"])/100)},
-                {v: Number(item["import_value"]) - Number(item["export_value"]), f: formatter.format(Number(item["import_value"]) - Number(item["export_value"])/100)}
+                {v: Number(item["import_value"]) - Number(item["export_value"]), f: formatter.format((Number(item["import_value"]) - Number(item["export_value"]))/100)}
             ]);       
       }
       else{
@@ -317,7 +319,24 @@ function saveSettings(){
 	setCookie("outgoing_mpan", document.getElementById('outgoing_mpan').value)
 	setCookie("serial", document.getElementById('serial').value)
 }
-
+function downloadData(){
+  //prices_data
+  //daily_prices_data
+  //data
+  //consumption_data
+  //cost_data
+  //daily_data
+  //daily_consumption_data
+  //daily_cost_data
+  makeCSV(data, "energy_data.csv")
+}
+function makeCSV(dataTable, csvName){
+  var csvFormattedDataTable = google.visualization.dataTableToCsv(dataTable);
+  var encodedUri = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csvFormattedDataTable);
+  this.href = encodedUri;
+  this.download = csvName;
+  this.target = '_blank';
+}
 function checkSettings(){
 	if(getCookie("api_key") == ""){
 		alert("set the settings before getting data");
