@@ -1,13 +1,7 @@
 google.charts.load("current", {packages:["table",'line', 'corechart', 'controls']});
 
-var prices_data = new google.visualization.DataTable();
-var daily_prices_data = new google.visualization.DataTable();
-var data = new google.visualization.DataTable();
-var consumption_data = new google.visualization.DataTable();
-var cost_data = new google.visualization.DataTable();
-var daily_data = new google.visualization.DataTable();
-var daily_consumption_data = new google.visualization.DataTable();
-var daily_cost_data = new google.visualization.DataTable();
+var prices_data, data, consumption_data, cost_data;
+var daily_prices_data, daily_data, daily_consumption_data, daily_cost_data;
 
 function loadData() {
     var output = {}
@@ -20,6 +14,15 @@ function loadData() {
     var input_mpan = document.getElementById('input_mpan').value
     var outgoing_mpan = document.getElementById('outgoing_mpan').value
     var serial = document.getElementById('serial').value
+
+    prices_data = new google.visualization.DataTable();
+    daily_prices_data = new google.visualization.DataTable();
+    data = new google.visualization.DataTable();
+    consumption_data = new google.visualization.DataTable();
+    cost_data = new google.visualization.DataTable();
+    daily_data = new google.visualization.DataTable();
+    daily_consumption_data = new google.visualization.DataTable();
+    daily_cost_data = new google.visualization.DataTable();
 
     var from = new Date()
     from.setDate(from.getDate()-28)
