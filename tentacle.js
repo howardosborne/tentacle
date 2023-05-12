@@ -172,16 +172,16 @@ function loadData() {
           {v: Number(item["export_value_inc_vat"]), f: formatter.format(Number(item["export_value_inc_vat"])/100)},
           {v: Number(item["margin"]), f: formatter.format(Number(item["margin"])/100)}
         ]);      
-		data.addRow([new Date (item["valid_from"]),
-          {v: Number(item["value_inc_vat"]), f: formatter.format(Number(item["value_inc_vat"])/100)},
-          {v: Number(item["export_value_inc_vat"]), f: formatter.format(Number(item["export_value_inc_vat"])/100)},
-          {v: Number(item["margin"]), f: formatter.format(Number(item["margin"])/100)},
-          Number(item["imported"]),
-          Number(item["exported"]) * -1,
+		data.addRow([item["valid_from"],
+          item["value_inc_vat"],
+          item["export_value_inc_vat"],
+          item["margin"],
+          item["imported"],
+          item["exported"],
           Number(item["imported"]) - Number(item["exported"]),
-		  {v: Number(item["import_value"]), f: formatter.format(Number(item["import_value"])/100)},
-          {v: Number(item["export_value"]) * -1, f: formatter.format(Number(item["export_value"])/100)},
-          {v: Number(item["import_value"]) - Number(item["export_value"]), f: formatter.format(Number(item["import_value"]) - Number(item["export_value"])/100)}		 
+		      item["import_value"],
+          item["export_value"],
+          Number(item["import_value"]) - Number(item["export_value"])		 
         ]);	
     });
 
@@ -338,29 +338,15 @@ function saveSettings(){
 	setCookie("outgoing_mpan", document.getElementById('outgoing_mpan').value)
 	setCookie("serial", document.getElementById('serial').value)
 }
-function downloadData(){
-  //prices_data
-  //daily_prices_data
-  //data
-  //consumption_data
-  //cost_data
-  //daily_data
-  //daily_consumption_data
-  //daily_cost_data
-  //makeCSV(prices_data, "prices_data.csv")
-  //makeCSV(consumption_data, "consumption_data.csv")
-  //makeCSV(cost_data, "cost_data.csv")
-	makeCSV(data, "energy_data.csv")
-}
-function makeCSV(dataTable, csvName){
-  console.log(csvName)
-  var csvFormattedDataTable = google.visualization.dataTableToCsv(dataTable);
-  var encodedUri = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csvFormattedDataTable);
+function downloadData(){	
+  var headers = "timestamp,import_price,export_price,margin,imported,exported,net_import,import_value,export_value,net_value\n";
+  var csvFormattedDataTable = google.visualization.dataTableToCsv(data);
+  var encodedUri = 'data:application/csv;charset=utf-8,' + headers+ encodeURIComponent(csvFormattedDataTable);
   this.href = encodedUri;
-  this.download = csvName;
+  this.download = "summary.csv";
   this.target = '_blank';
-	console.log(encodedUri)
 }
+
 function checkSettings(){
 	if(getCookie("api_key") == ""){
 		alert("set the settings before getting data");
