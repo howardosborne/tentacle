@@ -54,41 +54,9 @@ function loadData() {
           {v: Number(item["export_value_inc_vat"]), f: formatter.format(Number(item["export_value_inc_vat"])/100)},
           {v: Number(item["margin"]), f: formatter.format(Number(item["margin"])/100)}
         ]);      
-		data.addRow([new Date (item["valid_from"]),
-      Number(item["value_inc_vat"]),
-      Number(item["export_value_inc_vat"]),
-      Number(item["margin"]),
-      Number(item["imported"]),
-      Number(item["exported"]),
-      Number(item["imported"]) - Number(item["exported"]),
-		  Number(item["import_value"]),
-      Number(item["export_value"]),
-      Number(item["import_value"]) - Number(item["export_value"])		 
-        ]);	
     });
 
 
-    Object.entries(daily_info).forEach(function([key, item]) {
-      if ("export_value" in item){ 
-        daily_consumption_data.addRow([new Date (key),
-                Number(item["imported"]),
-                {v: Number(item["export"]) * -1, f: Number(item["export"])},
-                Number(item["imported"]) - Number(item["exported"])
-            ]);
-        daily_cost_data.addRow([new Date (key),
-                {v: Number(item["import_value"]), f: formatter.format(Number(item["import_value"])/100)},
-                {v: Number(item["export_value"]) * -1, f: formatter.format(Number(item["export_value"])/100)},
-                {v: Number(item["import_value"]) - Number(item["export_value"]), f: formatter.format((Number(item["import_value"]) - Number(item["export_value"]))/100)}
-            ]);       
-      }
-      else{
-        daily_prices_data.addRow([new Date (key),
-          {v: Number(item["value_inc_vat"])/48, f: formatter.format(Number(item["value_inc_vat"])/4800)},
-          {v: Number(item["export_value_inc_vat"])/48, f: formatter.format(Number(item["export_value_inc_vat"])/4800)},
-          {v: Number(item["margin"]), f: formatter.format(Number(item["margin"])/100)}
-        ]);
-      }
-    }); 
 
     var prices_view = new google.visualization.DataView(prices_data);
     prices_view.setRows(prices_data.getFilteredRows([{column: 0, minValue: new Date()}]));
