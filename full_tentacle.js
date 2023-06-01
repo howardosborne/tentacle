@@ -25,7 +25,7 @@ function loadData() {
     daily_cost_data = new google.visualization.DataTable();
 
     var from = new Date()
-    from.setDate(from.getDate()-30)
+    from.setDate(from.getDate()-21)
     var date_from = from.toISOString().substring(0,10)
     var period_from = date_from + "T00:00Z"
 
