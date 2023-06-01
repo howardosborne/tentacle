@@ -190,7 +190,7 @@ function loadData() {
       if ("export_value" in item){ 
         daily_consumption_data.addRow([new Date (key),
                 Number(item["imported"]),
-                {v: Number(item["export"]) * -1, f: Number(item["export"])},
+                Number(item["exported"]),
                 Number(item["imported"]) - Number(item["exported"])
             ]);
         daily_cost_data.addRow([new Date (key),
